@@ -3,6 +3,7 @@
         "commonjs": true,
         "es6": true,
         "browser": true,
+        "webextensions": true,
         "jest": true
     },
     "extends": "airbnb-base",

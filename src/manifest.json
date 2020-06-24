@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Fantastic Tricolor Bread",
+  "version": "0.0.1",
+
+  "default_locale": "en",
+  "description": "A plain text description",
+  "icons": {},
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["*://*.nogidoga.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
