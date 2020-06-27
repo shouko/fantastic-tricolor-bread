@@ -23,9 +23,12 @@ async function init() {
   trackSetting.inject();
   trackSettingActivator.inject();
 
-  const eid = document.querySelector('[ref=video]').getAttribute('episodeid');
+  const playerContainer = document.querySelector('[ref=video]');
+  if (!playerContainer) return;
+  const eid = playerContainer.getAttribute('episodeid');
   const tracks = await fetchTracksById(eid);
   trackSetting.replaceTracks(tracks);
+  if (tracks.length > 0) trackSetting.change(0);
 }
 
 init();

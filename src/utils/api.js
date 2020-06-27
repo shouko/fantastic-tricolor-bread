@@ -14,7 +14,7 @@ async function loadTrackBody(track) {
 }
 
 async function fetchTracksById(eid) {
-  const { subtitles } = await fetch(`${endpoint}/episode/${eid}`).then((r) => r.json());
+  const { subtitles } = await fetch(`${endpoint}/episode/${Math.parseInt(eid, 10)}`).then((r) => r.json());
   return Promise.all(subtitles.map(loadTrackBody));
 /*
   [
