@@ -14,13 +14,14 @@ function createSubtitleTrack(opts) {
 function injectSubtitleTrack(track) {
   const v = document.querySelector('[ref=videoPlayerContainer] > video');
   if (!v) return;
-  v.crossOrigin = 'use-credentials';
   v.appendChild(track);
 }
 
-function fetchSubtitlesData(eid) {
-  console.log(eid);
-  return [
+async function fetchSubtitlesData(eid) {
+  const { subtitles } = await fetch(`https://ichigo-milk-api.herokuapp.com/episode/${eid}`).then((r) => r.json());
+  return subtitles;
+/*
+  [
     {
       srclang: 'zh-TW',
       label: '繁體中文',
@@ -32,6 +33,7 @@ function fetchSubtitlesData(eid) {
       src: 'https://example.com/bar.vtt',
     },
   ];
+ */
 }
 
 function createTrackSelectorItem(track) {
@@ -97,9 +99,17 @@ function injectTrackSelectorActivator(el) {
   p.insertBefore(el, next);
 }
 
-function init() {
+async function init() {
   const eid = document.querySelector('[ref=video]').getAttribute('episodeid');
-  const tracks = fetchSubtitlesData(eid);
+  const tracksMeta = await fetchSubtitlesData(eid).map();
+  const tracks = await Promise.all(tracksMeta.map(async (x) => {
+    const body = await fetch(x.src).then((e) => e.text());
+    const blob = new Blob([body], { type: 'text/vtt' });
+    return {
+      ...x,
+      src: URL.createObjectURL(blob),
+    };
+  }));
   tracks.forEach((t) => {
     injectSubtitleTrack(createSubtitleTrack(t));
   });
