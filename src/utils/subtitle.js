@@ -29,7 +29,10 @@ function replaceSubtitleTrack(track) {
   appendSubtitleTrack(track);
 }
 
+function setSubtitle(opts) {
+  replaceSubtitleTrack(createSubtitleTrack(opts));
+}
+
 module.exports = {
-  createSubtitleTrack,
-  replaceSubtitleTrack,
+  setSubtitle,
 };

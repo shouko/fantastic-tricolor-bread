@@ -3,13 +3,13 @@
 
 const TrackSetting = require('./components/TrackSetting');
 const TrackSettingActivator = require('./components/TrackSettingActivator');
-const { fetchTracksById, resolveTracks } = require('./utils/api');
-const { createSubtitleTrack, replaceSubtitleTrack } = require('./utils/subtitle');
+const { fetchTracksById } = require('./utils/api');
+const { setSubtitle } = require('./utils/subtitle');
 
 const trackSetting = new TrackSetting((e) => {
   if (e.type === 'change') {
     const { id, ...opts } = e.detail;
-    replaceSubtitleTrack(createSubtitleTrack({ ...opts, default: true }));
+    setSubtitle({ ...opts, default: true });
   }
 });
 
@@ -24,8 +24,7 @@ async function init() {
   trackSettingActivator.inject();
 
   const eid = document.querySelector('[ref=video]').getAttribute('episodeid');
-  const tracksMeta = await fetchTracksById(eid).map();
-  const tracks = await resolveTracks(tracksMeta);
+  const tracks = await fetchTracksById(eid);
   trackSetting.replaceTracks(tracks);
 }
 

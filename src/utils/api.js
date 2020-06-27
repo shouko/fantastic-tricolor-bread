@@ -4,9 +4,18 @@ function setEndpoint(url) {
   endpoint = url;
 }
 
+async function loadTrackBody(track) {
+  const body = await fetch(track.src).then((e) => e.text());
+  const blob = new Blob([body], { type: 'text/vtt' });
+  return {
+    ...track,
+    src: URL.createObjectURL(blob),
+  };
+}
+
 async function fetchTracksById(eid) {
   const { subtitles } = await fetch(`${endpoint}/episode/${eid}`).then((r) => r.json());
-  return subtitles;
+  return Promise.all(subtitles.map(loadTrackBody));
 /*
   [
     {
@@ -23,21 +32,7 @@ async function fetchTracksById(eid) {
  */
 }
 
-async function resolveTrackMeta(track) {
-  const body = await fetch(track.src).then((e) => e.text());
-  const blob = new Blob([body], { type: 'text/vtt' });
-  return {
-    ...track,
-    src: URL.createObjectURL(blob),
-  };
-}
-
-async function resolveTracks(tracks) {
-  return Promise.all(tracks.map(resolveTrackMeta));
-}
-
 module.exports = {
   fetchTracksById,
   setEndpoint,
-  resolveTracks,
 };
