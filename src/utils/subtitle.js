@@ -21,6 +21,7 @@ function appendSubtitleTrack(track) {
 
 function replaceSubtitleTrack(track) {
   const v = getVideoElement();
+  if (!v) return;
   let child = v.firstElementChild;
   while (child) {
     v.removeChild(child);
