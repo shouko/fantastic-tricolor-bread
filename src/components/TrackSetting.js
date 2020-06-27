@@ -1,10 +1,14 @@
+const baseClassName = 'VideoPlayer__QualitySetting';
+const activeClassName = `${baseClassName}--active`;
+const itemBaseClassName = 'VideoPlayer__QualitySelector';
+const itemActiveClassName = `${itemBaseClassName}--active`;
+
 class TrackSetting {
   constructor(callback) {
     this.callback = callback;
     this.tracks = [];
     this.tracksEl = document.createElement('ul');
     this.activeTrack = null;
-    this.baseClassName = 'VideoPlayer__QualitySetting';
 
     this.el = TrackSetting.createContainer();
     this.el.append(this.tracksEl);
@@ -12,7 +16,7 @@ class TrackSetting {
 
   static createContainer() {
     const title = document.createElement('div');
-    title.classList.add(`${this.baseClassName}Title`);
+    title.classList.add(`${baseClassName}Title`);
     title.innerText = '字幕';
 
     const e = document.createElement('div');
@@ -23,24 +27,12 @@ class TrackSetting {
   }
 
   static createItemEl(track, id) {
-    const baseClassName = 'VideoPlayer__QualitySelector';
-    const activeClassName = `${baseClassName}--active`;
     const t = document.createElement('li');
     t.dataset.id = id;
     t.innerText = track.label;
-    t.classList.add(baseClassName);
+    t.classList.add(this.itemBaseClassName);
     t.addEventListener('click', (e) => {
-      this.callback(new CustomEvent('change', {
-        detail: this.tracks[e.target.dataset.id],
-      }));
-      const parent = e.target.parentElement;
-      if (parent) {
-        const siblings = parent.children;
-        for (let i = 0; i < siblings.length; i += 1) {
-          siblings[i].classList.remove(activeClassName);
-        }
-      }
-      e.target.classList.add(activeClassName);
+      this.change(Number.parseInt(e.target.dataset.id, 10));
     });
     return t;
   }
@@ -65,18 +57,34 @@ class TrackSetting {
     this.tracks = [];
     this.tracksEl.innerHTML = '';
     this.appendTracks(tracks);
+    this.activeTrack = 0;
+  }
+
+  change(id) {
+    this.activeTrack = id;
+    const tracks = this.tracksEl.children;
+    for (let i = 0; i < tracks.length; i += 1) {
+      if (i === id) {
+        tracks[i].classList.add(itemActiveClassName);
+      } else {
+        tracks[i].classList.remove(itemActiveClassName);
+      }
+    }
+    this.callback(new CustomEvent('change', {
+      detail: this.tracks[id],
+    }));
   }
 
   show() {
-    this.el.classList.add(`${this.baseClassName}--active`);
+    this.el.classList.add(activeClassName);
   }
 
   hide() {
-    this.el.classList.remove(`${this.baseClassName}--active`);
+    this.el.classList.remove(activeClassName);
   }
 
   toggleShow() {
-    if (this.el.classList.contains(`${this.baseClassName}--active`)) {
+    if (this.el.classList.contains(activeClassName)) {
       this.hide();
     } else {
       this.show();
