@@ -4,8 +4,17 @@
 const TrackSetting = require('./components/TrackSetting');
 const TrackSettingActivator = require('./components/TrackSettingActivator');
 
-let trackSetting = null;
-let trackSettingActivator = null;
+const trackSetting = new TrackSetting((e) => {
+  if (e.type === 'change') {
+    console.log(e.detail); // change to this track
+  }
+});
+
+const trackSettingActivator = new TrackSettingActivator((e) => {
+  if (e.type === 'click') {
+    trackSetting.toggleShow();
+  }
+});
 
 function createSubtitleTrack(opts) {
   const s = document.createElement('track');
@@ -53,16 +62,15 @@ async function resolveTrackMeta(track) {
 }
 
 async function init() {
+  trackSetting.inject();
+  trackSettingActivator.inject();
+
   const eid = document.querySelector('[ref=video]').getAttribute('episodeid');
   const tracksMeta = await fetchTracksById(eid).map();
   const tracks = await Promise.all(tracksMeta.map(resolveTrackMeta));
   tracks.forEach((t) => {
     injectSubtitleTrack(createSubtitleTrack(t));
   });
-  if (!trackSetting) trackSetting = new TrackSetting();
-  trackSetting.inject();
-  if (!trackSettingActivator) trackSettingActivator = new TrackSettingActivator();
-  trackSettingActivator.inject();
 }
 
 init();

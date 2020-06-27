@@ -1,5 +1,7 @@
 class TrackSettingActivator {
-  constuctor() {
+  constuctor(callback) {
+    this.callback = callback;
+
     const icon = TrackSettingActivator.createIcon();
     const iconContainer = TrackSettingActivator.createIconContainer();
     iconContainer.appendChild(icon);
@@ -7,7 +9,7 @@ class TrackSettingActivator {
     const e = document.createElement('div');
     e.classList.add('VideoPlayer__GearIcon');
     e.addEventListener('click', () => {
-      // toggle track selector
+      this.callback(new Event('click'));
     });
     e.appendChild(iconContainer);
     this.el = e;
