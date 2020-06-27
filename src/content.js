@@ -43,17 +43,19 @@ async function fetchTracksById(eid) {
  */
 }
 
+async function resolveTrackMeta(track) {
+  const body = await fetch(track.src).then((e) => e.text());
+  const blob = new Blob([body], { type: 'text/vtt' });
+  return {
+    ...track,
+    src: URL.createObjectURL(blob),
+  };
+}
+
 async function init() {
   const eid = document.querySelector('[ref=video]').getAttribute('episodeid');
   const tracksMeta = await fetchTracksById(eid).map();
-  const tracks = await Promise.all(tracksMeta.map(async (x) => {
-    const body = await fetch(x.src).then((e) => e.text());
-    const blob = new Blob([body], { type: 'text/vtt' });
-    return {
-      ...x,
-      src: URL.createObjectURL(blob),
-    };
-  }));
+  const tracks = await Promise.all(tracksMeta.map(resolveTrackMeta));
   tracks.forEach((t) => {
     injectSubtitleTrack(createSubtitleTrack(t));
   });
