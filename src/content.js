@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 /* eslint-disable no-console */
 
 const TrackSetting = require('./components/TrackSetting');
