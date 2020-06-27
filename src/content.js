@@ -1,17 +1,17 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-console */
 
-let trackSelector = null;
-let trackSelectorActivator = null;
+let trackSetting = null;
+let trackSettingActivator = null;
 
-class TrackSelector {
+class TrackSetting {
   constructor(tracks) {
     this.list = document.createElement('ul');
     tracks.forEach((track) => {
-      this.list.appendChild(TrackSelector.createItem(track));
+      this.list.appendChild(TrackSetting.createItem(track));
     });
 
-    this.el = TrackSelector.createContainer();
+    this.el = TrackSetting.createContainer();
     this.el.append(this.list);
   }
 
@@ -51,16 +51,16 @@ class TrackSelector {
   inject() {
     if (document.contains(this.el)) return;
     const playerContainer = document.querySelector('[ref=videoPlayerContainer]');
-    const qualitySelector = document.querySelector('[ref=videoPlayerContainer] > .VideoPlayer__QualitySetting');
-    if (!playerContainer || !qualitySelector) return;
-    playerContainer.insertBefore(this.el, qualitySelector);
+    const qualitySetting = document.querySelector('[ref=videoPlayerContainer] > .VideoPlayer__QualitySetting');
+    if (!playerContainer || !qualitySetting) return;
+    playerContainer.insertBefore(this.el, qualitySetting);
   }
 }
 
-class TrackSelectorActivator {
+class TrackSettingActivator {
   constuctor() {
-    const icon = TrackSelectorActivator.createIcon();
-    const iconContainer = TrackSelectorActivator.createIconContainer();
+    const icon = TrackSettingActivator.createIcon();
+    const iconContainer = TrackSettingActivator.createIconContainer();
     iconContainer.appendChild(icon);
 
     const e = document.createElement('div');
@@ -164,10 +164,10 @@ async function init() {
   tracks.forEach((t) => {
     injectSubtitleTrack(createSubtitleTrack(t));
   });
-  if (!trackSelector) trackSelector = new TrackSelector();
-  trackSelector.inject();
-  if (!trackSelectorActivator) trackSelectorActivator = new TrackSelectorActivator();
-  trackSelectorActivator.inject();
+  if (!trackSetting) trackSetting = new TrackSetting();
+  trackSetting.inject();
+  if (!trackSettingActivator) trackSettingActivator = new TrackSettingActivator();
+  trackSettingActivator.inject();
 }
 
 init();
