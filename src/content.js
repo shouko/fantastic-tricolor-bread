@@ -69,11 +69,27 @@ function injectTrackSelector(el) {
 }
 
 function createTrackSelectorActivator() {
+  /*
   const path = document.createElement('path');
+  // TODO: Add real icon
   path.setAttribute('d', 'FOOBAR');
 
   const svg = document.createElement('svg');
   svg.setAttribute('viewBox', '0 0 20 20');
+  svg.appendChild(path);
+  */
+
+  const svg = document.createElement('div');
+  svg.innerText = '字';
+  const style = {
+    margin: '0 auto',
+    height: '30px',
+    width: '20px',
+    fontSize: '20px',
+  };
+  Object.entries(style).forEach(([key, val]) => {
+    svg.style[key] = val;
+  });
 
   const svgContainer = document.createElement('div');
   svgContainer.classList.add('SvgIcon');
@@ -86,7 +102,6 @@ function createTrackSelectorActivator() {
     // toggle track selector
   });
 
-  svg.appendChild(path);
   svgContainer.appendChild(svg);
   e.appendChild(svgContainer);
   return e;
@@ -94,7 +109,7 @@ function createTrackSelectorActivator() {
 
 function injectTrackSelectorActivator(el) {
   const p = document.querySelector('.VideoPlayer__Option');
-  const next = document.querySelector('.VideoPlayer__Option > .VideoPlayer__SoundIcon');
+  const next = document.querySelector('.VideoPlayer__Option > .VideoPlayer__GearIcon');
   if (!p || !next) return;
   p.insertBefore(el, next);
 }
