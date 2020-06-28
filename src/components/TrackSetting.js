@@ -56,22 +56,30 @@ class TrackSetting {
   replaceTracks(tracks) {
     this.tracks = [];
     this.tracksEl.innerHTML = '';
+    this.tracksEl.appendChild(TrackSetting.createItemEl({ label: 'オフ' }, -1, this));
     this.appendTracks(tracks);
     this.activeTrack = 0;
+  }
+
+  getTrackData(id) {
+    if (id === -1) {
+      return {};
+    }
+    return this.tracks[id];
   }
 
   change(id) {
     this.activeTrack = id;
     const tracks = this.tracksEl.children;
     for (let i = 0; i < tracks.length; i += 1) {
-      if (i === id) {
+      if (Number.parseInt(tracks[i].dataset.id, 10) === id) {
         tracks[i].classList.add(itemActiveClassName);
       } else {
         tracks[i].classList.remove(itemActiveClassName);
       }
     }
     this.callback(new CustomEvent('change', {
-      detail: this.tracks[id],
+      detail: this.getTrackData(id),
     }));
   }
 

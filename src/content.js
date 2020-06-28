@@ -27,7 +27,11 @@ async function init() {
   const eid = playerContainer.getAttribute('episodeid');
   const tracks = await fetchTracksById(eid);
   trackSetting.replaceTracks(tracks);
-  if (tracks.length > 0) trackSetting.change(0);
+  if (tracks.length > 0) {
+    trackSetting.change(0);
+  } else {
+    trackSetting.change(-1);
+  }
 }
 
 const observer = new MutationObserver((mutations) => {

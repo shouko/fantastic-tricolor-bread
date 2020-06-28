@@ -15,7 +15,7 @@ function getVideoElement() {
 
 function appendSubtitleTrack(track) {
   const v = getVideoElement();
-  if (!v) return;
+  if (!v || !track.src) return;
   v.appendChild(track);
 }
 
