@@ -31,11 +31,26 @@ async function init() {
 }
 
 const observer = new MutationObserver((mutations) => {
-  const matches = mutations.some((mut) => {
-    if (mut.target.localName !== 'video') return false;
-    return mut.target.classList.contains('VideoPlayer__Video');
-  });
-  if (matches) init();
+  let checked = 0;
+  const checks = 2;
+  for (let i = 0; i < mutations.length; i += 1) {
+    const { target } = mutations[i];
+    if (target.localName === 'div') {
+      if (
+        target.classList.contains('VideoPlayer__Option')
+        && !target.classList.contains('VideoPlayer__Option--active')
+      ) {
+        trackSetting.hide();
+        checked += 1;
+      }
+    } else if (target.localName === 'video') {
+      if (target.classList.contains('VideoPlayer__Video')) {
+        init();
+        checked += 1;
+      }
+    }
+    if (checked === checks) break;
+  }
 });
 
 observer.observe(document.querySelector('main'), { attributes: true, subtree: true });
