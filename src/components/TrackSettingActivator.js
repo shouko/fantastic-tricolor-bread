@@ -1,18 +1,18 @@
 class TrackSettingActivator {
-  constuctor(callback) {
+  constructor(callback) {
     this.callback = callback;
 
     const icon = TrackSettingActivator.createIcon();
     const iconContainer = TrackSettingActivator.createIconContainer();
     iconContainer.appendChild(icon);
 
-    const e = document.createElement('div');
-    e.classList.add('VideoPlayer__GearIcon');
-    e.addEventListener('click', () => {
+    const el = document.createElement('div');
+    el.classList.add('VideoPlayer__GearIcon');
+    el.addEventListener('click', () => {
       this.callback(new Event('click'));
     });
-    e.appendChild(iconContainer);
-    this.el = e;
+    el.appendChild(iconContainer);
+    this.el = el;
   }
 
   static createIcon() {

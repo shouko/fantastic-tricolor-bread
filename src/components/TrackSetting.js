@@ -20,7 +20,7 @@ class TrackSetting {
     title.innerText = '字幕';
 
     const e = document.createElement('div');
-    e.classList.add(this.baseClassName);
+    e.classList.add(baseClassName);
     e.style.marginRight = '50px';
     e.appendChild(title);
     return e;
@@ -30,7 +30,7 @@ class TrackSetting {
     const t = document.createElement('li');
     t.dataset.id = id;
     t.innerText = track.label;
-    t.classList.add(this.itemBaseClassName);
+    t.classList.add(itemBaseClassName);
     t.addEventListener('click', (e) => {
       this.change(Number.parseInt(e.target.dataset.id, 10));
     });
