@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Fantastic Tricolor Bread",
+    "description": "The title of the application, displayed in the web store."
+  },
+  "appDesc": {
+    "message": "Watch nogidoga with subtitles in your language.", 
+    "description":"The description of the application, displayed in the web store."
+  }
+}

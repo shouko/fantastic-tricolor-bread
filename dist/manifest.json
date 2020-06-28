@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Fantastic Tricolor Bread",
+  "name": "__MSG_appName__",
   "version": "0.0.1",
-
+  "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "description": "A plain text description",
+  "homepage_url": "https://github.com/shouko/fantastic-tricolor-bread",
   "icons": {},
   "background": {
     "scripts": [
-      "background.js"
+      "background.bundle.js"
     ],
     "persistent": false
   },
@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.nogidoga.com/*"],
-      "js": ["content.js"]
+      "js": ["content.bundle.js"]
     }
   ]
 }
