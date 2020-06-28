@@ -14,8 +14,12 @@ async function loadTrackBody(track) {
 }
 
 async function fetchTracksById(eid) {
-  const { subtitles } = await fetch(`${endpoint}/episode/${Number.parseInt(eid, 10)}`).then((r) => r.json());
-  return Promise.all(subtitles.map(loadTrackBody));
+  try {
+    const { subtitles } = await fetch(`${endpoint}/episode/${Number.parseInt(eid, 10)}`).then((r) => r.json());
+    return Promise.all(subtitles.map(loadTrackBody));
+  } catch (e) {
+    return [];
+  }
 /*
   [
     {
