@@ -5,6 +5,9 @@
   "repository": "https://github.com/shouko/fantastic-tricolor-bread",
   "author": "shouko <imshouko@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack"
+  },
   "devDependencies": {
     "eslint": "^7.3.1",
     "eslint-config-airbnb-base": "^14.2.0",
