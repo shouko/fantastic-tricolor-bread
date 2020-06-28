@@ -26,13 +26,13 @@ class TrackSetting {
     return e;
   }
 
-  static createItemEl(track, id) {
+  static createItemEl(track, id, _this) {
     const t = document.createElement('li');
     t.dataset.id = id;
     t.innerText = track.label;
     t.classList.add(itemBaseClassName);
     t.addEventListener('click', (e) => {
-      this.change(Number.parseInt(e.target.dataset.id, 10));
+      _this.change(Number.parseInt(e.target.dataset.id, 10));
     });
     return t;
   }
@@ -49,7 +49,7 @@ class TrackSetting {
     tracks.forEach((track) => {
       const id = this.tracks.length;
       this.tracks.push(track);
-      this.tracksEl.appendChild(TrackSetting.createItemEl(track, id));
+      this.tracksEl.appendChild(TrackSetting.createItemEl(track, id, this));
     });
   }
 
