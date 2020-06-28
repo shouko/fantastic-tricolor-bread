@@ -57,6 +57,6 @@ const observer = new MutationObserver((mutations) => {
   }
 });
 
-observer.observe(document.querySelector('main'), { attributes: true, subtree: true });
+observer.observe(document.querySelector('body'), { attributes: true, subtree: true });
 
 init();
