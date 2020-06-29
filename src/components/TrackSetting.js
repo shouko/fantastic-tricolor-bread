@@ -30,7 +30,7 @@ class TrackSetting {
   static createContainer() {
     const title = document.createElement('div');
     title.classList.add(`${baseClassName}Title`);
-    title.innerText = '字幕';
+    title.innerHTML = '字幕&nbsp;<a href="https://github.com/shouko/fantastic-tricolor-bread/blob/master/CONTRIBUTING.md" style="color: cyan;" target="_blank">[?]</a>';
 
     const e = document.createElement('div');
     e.classList.add(baseClassName);
