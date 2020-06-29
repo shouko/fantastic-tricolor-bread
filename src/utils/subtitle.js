@@ -39,7 +39,23 @@ function textToBlobURL(body) {
   return URL.createObjectURL(blob);
 }
 
+function srtToVtt(body) {
+  const lines = body.trim().split('\n\n').map((dialog) => {
+    const [, time, ...text] = dialog.split('\n');
+    return [
+      time.replace(/,/g, '.'),
+      ...text,
+    ].join('\n');
+  });
+  return [
+    'WEBVTT',
+    ...lines,
+    '',
+  ].join('\n\n');
+}
+
 module.exports = {
   setSubtitle,
   textToBlobURL,
+  srtToVtt,
 };

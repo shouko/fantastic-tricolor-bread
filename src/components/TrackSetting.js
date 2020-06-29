@@ -1,4 +1,4 @@
-const { textToBlobURL } = require('../utils/subtitle');
+const { textToBlobURL, srtToVtt } = require('../utils/subtitle');
 
 const baseClassName = 'VideoPlayer__QualitySetting';
 const activeClassName = `${baseClassName}--active`;
@@ -84,14 +84,17 @@ class TrackSetting {
   importCustomTrack() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.vtt,text/vtt';
+    input.accept = '.srt,.vtt,text/vtt';
     input.onchange = (e) => {
       if (e.target.files.length === 0) return;
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsText(file, 'UTF-8');
       reader.onload = (ev) => {
-        const { result } = ev.target;
+        let { result } = ev.target;
+        if (file.name.endsWith('.srt')) {
+          result = srtToVtt(result);
+        }
         const nextTrack = this.tracks.length;
         this.appendTracks([{ label: `Track ${nextTrack}`, src: textToBlobURL(result) }]);
         this.change(nextTrack);
