@@ -8,7 +8,13 @@
 - 載入自訂字幕
 
 ## 支援瀏覽器
+
+### 目前
 - Google Chrome (Desktop)
+
+### 規劃中
+- Mozilla Firefox (Desktop/Android)
+- Safari (macOS/iOS) 部分功能
 
 ## 授權方式
 
