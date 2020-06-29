@@ -1,3 +1,5 @@
+const { textToBlobURL } = require('./subtitle');
+
 let endpoint = 'https://ichigo-milk-api.herokuapp.com';
 
 function setEndpoint(url) {
@@ -6,10 +8,9 @@ function setEndpoint(url) {
 
 async function loadTrackBody(track) {
   const body = await fetch(track.src).then((e) => e.text());
-  const blob = new Blob([body], { type: 'text/vtt' });
   return {
     ...track,
-    src: URL.createObjectURL(blob),
+    src: textToBlobURL(body),
   };
 }
 

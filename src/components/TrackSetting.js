@@ -1,7 +1,20 @@
+const { textToBlobURL } = require('../utils/subtitle');
+
 const baseClassName = 'VideoPlayer__QualitySetting';
 const activeClassName = `${baseClassName}--active`;
 const itemBaseClassName = 'VideoPlayer__QualitySelector';
 const itemActiveClassName = `${itemBaseClassName}--active`;
+
+const specialTracks = {
+  off: {
+    id: -1,
+    label: 'オフ',
+  },
+  custom: {
+    id: -2,
+    label: 'ファイル選択',
+  },
+};
 
 class TrackSetting {
   constructor(callback) {
@@ -56,19 +69,49 @@ class TrackSetting {
   replaceTracks(tracks) {
     this.tracks = [];
     this.tracksEl.innerHTML = '';
-    this.tracksEl.appendChild(TrackSetting.createItemEl({ label: 'オフ' }, -1, this));
+    this.tracksEl.appendChild(TrackSetting.createItemEl(
+      { label: specialTracks.off.label },
+      specialTracks.off.id, this,
+    ));
+    this.tracksEl.appendChild(TrackSetting.createItemEl(
+      { label: specialTracks.custom.label },
+      specialTracks.custom.id, this,
+    ));
     this.appendTracks(tracks);
     this.activeTrack = 0;
   }
 
+  importCustomTrack() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.vtt,text/vtt';
+    input.onchange = (e) => {
+      if (e.target.files.length === 0) return;
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file, 'UTF-8');
+      reader.onload = (ev) => {
+        const { result } = ev.target;
+        const nextTrack = this.tracks.length;
+        this.appendTracks([{ label: `Track ${nextTrack}`, src: textToBlobURL(result) }]);
+        this.change(nextTrack);
+      };
+    };
+    input.click();
+  }
+
   getTrackData(id) {
-    if (id === -1) {
+    if (id === specialTracks.off.id) {
       return {};
     }
     return this.tracks[id];
   }
 
   change(id) {
+    if (id === specialTracks.custom.id) {
+      this.importCustomTrack();
+      return;
+    }
     this.activeTrack = id;
     const tracks = this.tracksEl.children;
     for (let i = 0; i < tracks.length; i += 1) {

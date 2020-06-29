@@ -34,6 +34,12 @@ function setSubtitle(opts) {
   replaceSubtitleTrack(createSubtitleTrack(opts));
 }
 
+function textToBlobURL(body) {
+  const blob = new Blob([body], { type: 'text/vtt' });
+  return URL.createObjectURL(blob);
+}
+
 module.exports = {
   setSubtitle,
+  textToBlobURL,
 };
