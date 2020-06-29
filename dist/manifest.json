@@ -12,7 +12,11 @@
     ],
     "persistent": false
   },
-  "permissions": [],
+  "permissions": [
+    "activeTab",
+    "*://*.nogidoga.com/*",
+    "https://ichigo-milk-api.herokuapp.com/*"
+  ],
   "content_scripts": [
     {
       "matches": ["*://*.nogidoga.com/*"],

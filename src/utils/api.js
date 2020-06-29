@@ -1,4 +1,5 @@
 const { textToBlobURL } = require('./subtitle');
+const fetch = require('./fetch');
 
 let endpoint = 'https://ichigo-milk-api.herokuapp.com';
 
