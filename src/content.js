@@ -24,6 +24,7 @@ async function init() {
 
   const playerContainer = document.querySelector('[ref=video]');
   if (!playerContainer) return;
+  trackSetting.appendTracks([{ label: '処理中...' }]);
   const eid = playerContainer.getAttribute('episodeid');
   const tracks = await fetchTracksById(eid);
   trackSetting.replaceTracks(tracks);
